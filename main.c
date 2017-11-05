@@ -49,7 +49,7 @@ int init(){
 	return 0;
 }
 
-void refreshw(struct send_t* send,int recurtion_level){
+void refreshw(struct send_t* send,int recursion_level){
 	int bw=width;
 	getmaxyx(stdscr,height,width);
 	if(bw!=width){
@@ -82,22 +82,22 @@ void refreshw(struct send_t* send,int recurtion_level){
 	}
 	static int before=0;
 	if(show){
-		if(recurtion_level+strlen(send->text)-offset+1+17*(offset!=0)>(unsigned int)width)
+		if(recursion_level+strlen(send->text)-offset+1+17*(offset!=0)>(unsigned int)width)
 			offset+=width/2-10;
-		if(recurtion_level<offset+1)
+		if(recursion_level<offset+1)
 			offset-=width/2;
 		if(offset<0)
 			offset=0;
 		if(offset)
 			wprintw(mainw,"<%04d more lines>",offset);
-		for(int loop=0;loop<recurtion_level-1-offset;loop++)
+		for(int loop=0;loop<recursion_level-1-offset;loop++)
 			waddch(mainw,ACS_VLINE);
-		if(before<recurtion_level)
+		if(before<recursion_level)
 			waddch(mainw,ACS_LTEE);
 		else
 			waddch(mainw,ACS_VLINE);
 	}
-	before=recurtion_level;
+	before=recursion_level;
 	if(show){
 		for(int loop=0;loop<=width;loop++){
 			mvwaddch(header,0,loop,' ');
@@ -121,22 +121,22 @@ void refreshw(struct send_t* send,int recurtion_level){
 
 int acker(int m,int n){
 	static int counter=0;
-	static int recurtion_level=0;
-	recurtion_level++;
+	static int recursion_level=0;
+	recursion_level++;
 	sprintf(send.text,"acker(%d,%d)",m,n);
-	sprintf(send.footer,"ackerman:run %d times, recurtion level %d",counter++,recurtion_level);
-	refreshw(&send,recurtion_level);
+	sprintf(send.footer,"ackerman:run %d times, recursion level %d",counter++,recursion_level);
+	refreshw(&send,recursion_level);
 	if(m==0){
-		recurtion_level--;
+		recursion_level--;
 		return n+1;
 	}else if (m>0&&n==0){
 		int res=acker(m-1,1);
-		recurtion_level--;
+		recursion_level--;
 		return res;
 	}else if(m>0&&n>0){
 		int res= acker(m-1,acker(m,n-1));
-		recurtion_level--;
+		recursion_level--;
 		return res;
 	}
-	recurtion_level--;
+	recursion_level--;
 }
