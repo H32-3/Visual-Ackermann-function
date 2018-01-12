@@ -1,10 +1,10 @@
 INPUT=main.c
-OPTIONS=-Wall -Wextra -O2
+OPTIONS=-Wall -Wextra -Ofast
 CMDOPTIONS=
 LIBS=-lncurses -ltinfo
 ODIRS=
 COMPILER=gcc
-OUTPUT=a.out
+OUTPUT=ackermann
 INSTALL_DIR=/usr/bin/
 
 all:$(INPUT)
